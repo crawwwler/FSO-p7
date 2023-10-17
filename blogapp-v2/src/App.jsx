@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux'
 const App = () => {
     const [blogs, setBlogs] = useState([])
     const [user, setUser] = useState(null)
-    const [notif, setNotif] = useState(null)
     const dispatch = useDispatch()
 
     const refBlogForm = useRef()
@@ -107,7 +106,7 @@ const App = () => {
         return (
             <div>
                 <h2>log in to application</h2>
-                <Notification message={notif} />
+                <Notification/>
                 {loginForm()}
             </div>
         )
@@ -117,7 +116,7 @@ const App = () => {
     return (
         <div>
             <h2>blogs</h2>
-            <Notification message={notif} />
+            <Notification />
             {user && <div>
                 <p>{user.name} logged in</p>
                 <button onClick={handleLogOut}>Logout</button>
