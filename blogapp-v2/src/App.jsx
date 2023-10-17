@@ -6,13 +6,17 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginserv from './services/login'
+import { setNotification, setErrorNotification } from './reducers/notifReducer'
+import { useDispatch } from 'react-redux'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
     const [user, setUser] = useState(null)
     const [notif, setNotif] = useState(null)
+    const dispatch = useDispatch()
 
     const refBlogForm = useRef()
+
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -39,13 +43,10 @@ const App = () => {
             blogService.setToken(userX.token)
         } catch (error) {
             console.log(error.message)
-            setNotif({
+            dispatch(setErrorNotification({
                 text: 'wrong username or password',
                 error: true
-            })
-            setTimeout(() => {
-                setNotif(null)
-            }, 5000)
+            }))
         }
     }
 
@@ -61,13 +62,10 @@ const App = () => {
         try {
             const savedBlog = await blogService.create(blogForm)
             setBlogs(blogs.concat(savedBlog))
-            setNotif({
+            dispatch(setNotification({
                 text: `a new blog ${blogForm.title} by ${blogForm.author} added`,
                 error: false
-            })
-            setTimeout(() => {
-                setNotif(null)
-            }, 5000)
+            }))
         } catch (error) {
             console.log(error.message)
         }
