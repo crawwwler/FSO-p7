@@ -5,7 +5,6 @@ const notifReducer = createSlice({
     initialState: null,
     reducers: {
         setNotif(state, action){
-            console.log('log in setNotif reducer => ', action.payload)
             return action.payload
         },
         setErrorNotif(state, action) {
@@ -16,7 +15,6 @@ const notifReducer = createSlice({
 
 export const setNotification = (content) => {
     return dispatch => {
-        console.log('log at setNotification AC =>', content)
         dispatch(setNotif(content))
         setTimeout(() => {
             dispatch(setNotif(null))

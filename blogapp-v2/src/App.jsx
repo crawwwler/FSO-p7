@@ -7,10 +7,12 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginserv from './services/login'
 import { setNotification, setErrorNotification } from './reducers/notifReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import {blogCreation, initializeBlogs, blogDeletion, blogUpdating} from './reducers/blogReducer'
 
 const App = () => {
-    const [blogs, setBlogs] = useState([])
+
+    const blogs = useSelector(state => state.blogs)
     const [user, setUser] = useState(null)
     const dispatch = useDispatch()
 
@@ -18,9 +20,7 @@ const App = () => {
 
 
     useEffect(() => {
-        blogService.getAll().then(blogs =>
-            setBlogs(blogs.sort((a, b) => b.likes - a.likes))
-        )
+        dispatch(initializeBlogs())
     }, [blogs])
 
 
@@ -59,8 +59,7 @@ const App = () => {
 
     const createBlog = async (blogForm) => {
         try {
-            const savedBlog = await blogService.create(blogForm)
-            setBlogs(blogs.concat(savedBlog))
+            dispatch(blogCreation(blogForm))
             dispatch(setNotification({
                 text: `a new blog ${blogForm.title} by ${blogForm.author} added`,
                 error: false
@@ -73,16 +72,14 @@ const App = () => {
 
 
     const updateBlog = async (obj, id) => {
-        const response = await blogService.update(obj, id)
-        setBlogs(blogs.map(blog => blog.id !== id ? blog : response))
+        dispatch(blogUpdating(obj, id))
     }
 
 
     const deleteBlog = async (id) => {
         const blog = blogs.find(blog => blog.id === id)
         if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-            await blogService.remove(id)
-            setBlogs(blogs.filter(blog => blog.id !== id))
+            dispatch(blogDeletion(id))
         }
     }
 
