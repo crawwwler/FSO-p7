@@ -1,24 +1,22 @@
-import { useState } from 'react'
+import {useField} from '../hooks/custom'
 
 const Blogform = ({ createFunc }) => {
-    const [title, setTitle] = useState('')
-    const [url, setUrl] = useState('')
-    const [author, setAuthor] = useState('')
 
+    const title = useField('text', 'title', 'title')
+    const url = useField('text', 'url', 'url')
+    const author = useField('text', 'author', 'author')
 
-    const handleForm = event => {
+    const handleForm = (event) => {
         event.preventDefault()
         createFunc({
-            title,
-            author,
-            url
+            title: title.value,
+            author: author.value,
+            url: url.value,
         })
-
-        setTitle('')
-        setAuthor('')
-        setUrl('')
+        title.clearField()
+        author.clearField()
+        url.clearField()
     }
-
 
     return (
         <div>
@@ -26,39 +24,34 @@ const Blogform = ({ createFunc }) => {
             <form onSubmit={handleForm}>
                 <div>
                     title:
-                    <input
-                        id="title"
-                        type="text"
-                        value={title}
-                        onChange={({ target }) => setTitle(target.value)}
-                        placeholder='title'
-                    />
+                    <input type={title.type}
+                            id={title.id}
+                            placeholder={title.placeholder}
+                            value={title.value}
+                            onChange={title.onChange}/>
                 </div>
                 <div>
                     author:
-                    <input
-                        id="author"
-                        type="text"
-                        value={author}
-                        onChange={({ target }) => setAuthor(target.value)}
-                        placeholder='author'
-                    />
+                    <input type={author.type}
+                            id={author.id}
+                            placeholder={author.placeholder}
+                            value={author.value}
+                            onChange={author.onChange}/>
                 </div>
                 <div>
                     url:
-                    <input
-                        id="url"
-                        type="text"
-                        value={url}
-                        onChange={({ target }) => setUrl(target.value)}
-                        placeholder='url'
-                    />
+                    <input type={url.type}
+                            id={url.id}
+                            placeholder={url.placeholder}
+                            value={url.value}
+                            onChange={url.onChange}/>
                 </div>
-                <button id="subbutton" type="submit">create</button>
+                <button id="subbutton" type="submit">
+                    create
+                </button>
             </form>
         </div>
     )
-
 }
 
 export default Blogform

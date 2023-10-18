@@ -1,26 +1,34 @@
-import { useEffect, useRef } from 'react'
-import Blog from './components/Blog'
+import { useEffect} from 'react'
+import Blogs from './components/Blogs'
+import Users from './components/Users'
 import Loginform from './components/Loginform'
-import Blogform from './components/Blogform'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
-import { setNotification, setErrorNotification } from './reducers/notifReducer'
+import Menu from './components/Menu'
+import {setErrorNotification } from './reducers/notifReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import {blogCreation, initializeBlogs, blogDeletion, blogUpdating} from './reducers/blogReducer'
+import {initializeBlogs} from './reducers/blogReducer'
 import {initializeUser, setUserWhenLogin, setUserWhenLogout} from './reducers/userReducer'
+import {initializeUsers} from './reducers/usersReducer'
+import {
+    BrowserRouter as Router, Routes, Route, Link
+} from 'react-router-dom'
 
 const App = () => {
 
     const blogs = useSelector(state => state.blogs)
     const user = useSelector(state => state.users)
+    const users = useSelector(state => state.userslist)
     const dispatch = useDispatch()
 
-    const refBlogForm = useRef()
-
+    //console.log('username => ', user)
 
     useEffect(() => {
         dispatch(initializeBlogs())
     }, [blogs])
+
+    useEffect(() => {
+        dispatch(initializeUsers())
+    }, [users])
 
 
     useEffect(() => {
@@ -46,47 +54,12 @@ const App = () => {
         dispatch(setUserWhenLogout())
     }
 
-    const createBlog = async (blogForm) => {
-        try {
-            dispatch(blogCreation(blogForm))
-            dispatch(setNotification({
-                text: `a new blog ${blogForm.title} by ${blogForm.author} added`,
-                error: false
-            }))
-        } catch (error) {
-            console.log(error.message)
-        }
-        refBlogForm.current.toggleTheVisibility()
-    }
-
-
-    const updateBlog = async (obj, id) => {
-        dispatch(blogUpdating(obj, id))
-    }
-
-
-    const deleteBlog = async (id) => {
-        const blog = blogs.find(blog => blog.id === id)
-        if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-            dispatch(blogDeletion(id))
-        }
-    }
-
-
     const loginForm = () => {
         return (
             <Loginform loginFunc={handleLogin} />
         )
     }
 
-
-    const blogForm = () => {
-        return (
-            <Togglable buttonLabel='new note' ref={refBlogForm}>
-                <Blogform createFunc={createBlog} />
-            </Togglable>
-        )
-    }
 
     if (user === null) {
         return (
@@ -98,27 +71,25 @@ const App = () => {
         )
     }
 
-
+    // SOME OF STYLES TEMPORARY FOR NOW
     return (
-        <div>
-            <h2>blogs</h2>
-            <Notification />
-            {user && <div>
-                <p>{user.name} logged in</p>
-                <button onClick={handleLogOut}>Logout</button>
-                {blogForm()}
-            </div>}
-            <div>
-                {blogs.map(blog =>
-                    <Blog key={blog.id}
-                        blog={blog}
-                        updateFunc={updateBlog}
-                        deleteFunc={() => deleteBlog(blog.id)}
-                        creator={user} />
-                )}
+        <Router>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <Menu Link={Link} />
+                <p style={{marginLeft: '10px'}}>{user.name} logged in</p>
+                <button onClick={handleLogOut}>Log Out</button>
             </div>
-            <br />
-        </div>
+            <div>
+                <Notification />
+            </div>
+            <div>
+                <h2>BLOGS APP</h2>
+            </div>
+            <Routes>
+                <Route path='/' element={<Blogs blogs={blogs} /> } />
+                <Route path='users' element={<Users users={users} />} />
+            </Routes>
+        </Router>
     )
 }
 

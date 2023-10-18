@@ -4,9 +4,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blogform from './Blogform'
 
-
 test('testing form', async () => {
-
     const mockHandler = jest.fn()
 
     render(<Blogform createFunc={mockHandler} />)

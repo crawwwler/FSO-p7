@@ -1,9 +1,7 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, updateFunc, deleteFunc, creator }) => {
-
+const Blog = ({ blog, updateFunc, deleteFunc, creator}) => {
     const [complete, setComplete] = useState(false)
-
 
     const toggleComplete = () => {
         setComplete(!complete)
@@ -15,15 +13,17 @@ const Blog = ({ blog, updateFunc, deleteFunc, creator }) => {
         } else {
             return (
                 <div>
-                    {creator.username === blog.user[0].username &&
+                    {creator.username === blog.user[0].username && (
                         <div>
-                            <button id='delbut' onClick={deleteFunc}>remove</button>
-                        </div>}
+                            <button id="delbut" onClick={deleteFunc}>
+                                remove
+                            </button>
+                        </div>
+                    )}
                 </div>
             )
         }
     }
-
 
     const handleUpdating = () => {
         const id = blog.id
@@ -40,9 +40,13 @@ const Blog = ({ blog, updateFunc, deleteFunc, creator }) => {
                 <a href={blog.url}>{blog.url}</a>
                 <br />
                 likes {blog.likes}
-                <button id='likebut' onClick={handleUpdating}>like</button>
+                <button id="likebut" onClick={handleUpdating}>
+                    like
+                </button>
                 <br />
-                {blog.user.length === 0 ? 'name is not defined' : blog.user[0].name}
+                {blog.user.length === 0
+                    ? 'name is not defined'
+                    : blog.user[0].name}
                 <br />
                 {deleteButton()}
             </div>
@@ -66,7 +70,6 @@ const Blog = ({ blog, updateFunc, deleteFunc, creator }) => {
             <br />
         </div>
     )
-
 }
 
 export default Blog

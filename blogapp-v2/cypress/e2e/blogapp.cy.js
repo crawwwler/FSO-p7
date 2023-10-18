@@ -4,7 +4,7 @@ describe('blogapp tests', function () {
         const user = {
             username: 'tester',
             name: 'test',
-            password: 'Test1234'
+            password: 'Test1234',
         }
         cy.request('POST', 'http://localhost:3003/api/users', user)
         cy.visit('http://localhost:5173')
@@ -56,16 +56,26 @@ describe('blogapp tests', function () {
 
         describe('note created', function () {
             beforeEach(function () {
-                cy.createBlog({ title: 'something', author: 'someone', url: 'www.some.com' })
+                cy.createBlog({
+                    title: 'something',
+                    author: 'someone',
+                    url: 'www.some.com',
+                })
             })
             it('user can like a blog', function () {
-                cy.contains('something by someone').parent().contains('show').click()
+                cy.contains('something by someone')
+                    .parent()
+                    .contains('show')
+                    .click()
                 cy.get('#likebut').click()
                 cy.contains('something by someone').parent().contains('likes 1')
             })
 
             it('users can delete their blogs', function () {
-                cy.contains('something by someone').parent().contains('show').click()
+                cy.contains('something by someone')
+                    .parent()
+                    .contains('show')
+                    .click()
                 cy.get('#delbut').click()
                 cy.get('.blog').should('not.exist')
             })
@@ -75,20 +85,46 @@ describe('blogapp tests', function () {
 
                 const helper = {
                     username: 'another',
-                    password: 'Another00'
+                    password: 'Another00',
                 }
                 cy.request('POST', 'http://localhost:3003/api/users', helper)
                 cy.login(helper)
-                cy.contains('something by someone').parent().contains('show').click()
-                cy.contains('something by someone').parent().contains('remove').should('not.exist')
+                cy.contains('something by someone')
+                    .parent()
+                    .contains('show')
+                    .click()
+                cy.contains('something by someone')
+                    .parent()
+                    .contains('remove')
+                    .should('not.exist')
             })
         })
 
         it('blogs shown in order', function () {
-            cy.createBlog({ title: '1st blog', author: 'first', url: '1.com', likes: 10 })
-            cy.createBlog({ title: '2nd blog', author: 'second', url: '2.com', likes: 8 })
-            cy.createBlog({ title: '3rd blog', author: 'third', url: '3.com', likes: 4 })
-            cy.createBlog({ title: '4th blog', author: 'fourth', url: '4.com', likes: 1 })
+            cy.createBlog({
+                title: '1st blog',
+                author: 'first',
+                url: '1.com',
+                likes: 10,
+            })
+            cy.createBlog({
+                title: '2nd blog',
+                author: 'second',
+                url: '2.com',
+                likes: 8,
+            })
+            cy.createBlog({
+                title: '3rd blog',
+                author: 'third',
+                url: '3.com',
+                likes: 4,
+            })
+            cy.createBlog({
+                title: '4th blog',
+                author: 'fourth',
+                url: '4.com',
+                likes: 1,
+            })
 
             cy.get('.blog').eq(0).should('contain', '1st blog')
             cy.get('.blog').eq(1).should('contain', '2nd blog')
