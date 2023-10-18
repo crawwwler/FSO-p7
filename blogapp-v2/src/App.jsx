@@ -1,19 +1,18 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Loginform from './components/Loginform'
 import Blogform from './components/Blogform'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
-import blogService from './services/blogs'
-import loginserv from './services/login'
 import { setNotification, setErrorNotification } from './reducers/notifReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import {blogCreation, initializeBlogs, blogDeletion, blogUpdating} from './reducers/blogReducer'
+import {initializeUser, setUserWhenLogin, setUserWhenLogout} from './reducers/userReducer'
 
 const App = () => {
 
     const blogs = useSelector(state => state.blogs)
-    const [user, setUser] = useState(null)
+    const user = useSelector(state => state.users)
     const dispatch = useDispatch()
 
     const refBlogForm = useRef()
@@ -25,23 +24,16 @@ const App = () => {
 
 
     useEffect(() => {
-        const loggedUser = window.localStorage.getItem('loggedUser')
-        if (loggedUser) {
-            const userX = JSON.parse(loggedUser)
-            setUser(userX)
-            blogService.setToken(userX.token)
-        }
+        dispatch(initializeUser())
     }, [])
-
 
     const handleLogin = async (userInput) => {
         try {
-            const userX = await loginserv.login(userInput)
-            window.localStorage.setItem('loggedUser', JSON.stringify(userX))
-            setUser(userX)
-            blogService.setToken(userX.token)
+            // USING AWAIT SO THE CATCH BLOCK EXECUTED IN CASE OF INCORRECT LOGIN DETAILS
+            await dispatch(setUserWhenLogin(userInput)) 
         } catch (error) {
             console.log(error.message)
+            console.log('the code was here at some point')
             dispatch(setErrorNotification({
                 text: 'wrong username or password',
                 error: true
@@ -51,10 +43,7 @@ const App = () => {
 
     const handleLogOut = (event) => {
         event.preventDefault()
-        setUser(null)
-        blogService.setToken('')
-        window.localStorage.removeItem('loggedUser')
-
+        dispatch(setUserWhenLogout())
     }
 
     const createBlog = async (blogForm) => {
