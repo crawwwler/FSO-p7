@@ -4,6 +4,9 @@ import Users from './components/Users'
 import Loginform from './components/Loginform'
 import Notification from './components/Notification'
 import Menu from './components/Menu'
+import Home from './components/Home'
+import Userview from './components/Userview'
+import Blogview from './components/Blogview'
 import {setErrorNotification } from './reducers/notifReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import {initializeBlogs} from './reducers/blogReducer'
@@ -19,8 +22,6 @@ const App = () => {
     const user = useSelector(state => state.users)
     const users = useSelector(state => state.userslist)
     const dispatch = useDispatch()
-
-    //console.log('username => ', user)
 
     useEffect(() => {
         dispatch(initializeBlogs())
@@ -60,7 +61,6 @@ const App = () => {
         )
     }
 
-
     if (user === null) {
         return (
             <div>
@@ -86,8 +86,11 @@ const App = () => {
                 <h2>BLOGS APP</h2>
             </div>
             <Routes>
-                <Route path='/' element={<Blogs blogs={blogs} /> } />
+                <Route path='/' element={<Home />} />
+                <Route path='blogs' element={<Blogs blogs={blogs} /> } />
                 <Route path='users' element={<Users users={users} />} />
+                <Route path='users/:id' element={<Userview users={users} />} />
+                <Route path='blogs/:id' element={<Blogview />} />
             </Routes>
         </Router>
     )

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState} from 'react'
+import {Link} from 'react-router-dom'
 
-const Blog = ({ blog, updateFunc, deleteFunc, creator}) => {
+const Blog = ({blog,updateFunc,deleteFunc,creator}) => {
     const [complete, setComplete] = useState(false)
 
     const toggleComplete = () => {
@@ -25,22 +26,25 @@ const Blog = ({ blog, updateFunc, deleteFunc, creator}) => {
         }
     }
 
+    // FUNCTION WHICH HANDLE THE LIKE BUTTON
     const handleUpdating = () => {
         const id = blog.id
         const nuBlog = { ...blog, likes: blog.likes + 1 }
         updateFunc(nuBlog, id)
     }
 
+
+
     const fullDetail = () => {
         return (
             <div>
-                {blog.title} by {blog.author}
+                <Link to={`${blog.id}`} >{blog.title} by {blog.author}</Link>
                 <button onClick={toggleComplete}>hide</button>
                 <br />
                 <a href={blog.url}>{blog.url}</a>
                 <br />
                 likes {blog.likes}
-                <button id="likebut" onClick={handleUpdating}>
+                <button id="likebut" onClick={() => handleUpdating(blog)}>
                     like
                 </button>
                 <br />
@@ -56,7 +60,7 @@ const Blog = ({ blog, updateFunc, deleteFunc, creator}) => {
     const summaryBlog = () => {
         return (
             <div>
-                {blog.title} by {blog.author}
+                <Link to={`${blog.id}`}>{blog.title} by {blog.author}</Link>
                 <button onClick={toggleComplete}>show</button>
             </div>
         )
@@ -71,5 +75,6 @@ const Blog = ({ blog, updateFunc, deleteFunc, creator}) => {
         </div>
     )
 }
+
 
 export default Blog

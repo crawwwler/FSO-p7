@@ -11,7 +11,8 @@ const Menu = ({Link}) => {
 
     return(
         <div>
-            <Link style={padding} to='/'>Blogs</Link>
+            <Link style={padding} to='/'>Home</Link>
+            <Link style={padding} to='blogs'>Blogs</Link>
             <Link style={padding} to='users'>Users</Link>
         </div>
     )
