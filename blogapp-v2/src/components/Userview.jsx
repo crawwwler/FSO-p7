@@ -2,8 +2,7 @@ import { useParams } from "react-router-dom"
 
 const Userview = ({users}) => {
     const id = useParams().id
-    //console.log('userview comp , id is => ', id)
-    //console.log('userview comp , the users => ', users)
+
     // MY BACKEND RETURNS ID AS STRING
     const userToDisplay = users.find(user => user.id === id) 
     //console.log('userview comp , found user => ', userToDisplay)

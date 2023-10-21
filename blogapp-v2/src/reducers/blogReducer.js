@@ -19,6 +19,10 @@ const blogSlice = createSlice({
                 x.id !== action.payload.id ? x : action.payload,
             )
         },
+        addCommentAction(state, action){
+            const blog = state.find(b => b.id === action.payload.id)
+            blog.comments.push(action.payload.comment)
+        }
     },
 })
 
@@ -52,10 +56,19 @@ export const blogUpdating = (obj, id) => {
     }
 }
 
+export const blogComment = (cm, id) => {
+    return async dispatch => {
+        const response = await blogService.addComment(cm, id)
+        const data = {id: id, comment: response}
+        dispatch(addCommentAction(data))
+    }
+}
+
 export const {
     createBlogAction,
     setBlogsAction,
     deleteBlogAction,
     updateBlogAction,
+    addCommentAction
 } = blogSlice.actions
 export default blogSlice.reducer
