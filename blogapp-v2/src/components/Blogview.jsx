@@ -20,6 +20,7 @@ const Blogview = () => {
         event.preventDefault()
         if(cm){
             dispatch(blogComment(cm, id))
+            setCm('')
         }
     }
 
