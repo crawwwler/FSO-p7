@@ -1,12 +1,12 @@
-import {Link} from 'react-router-dom'
-const User = ({user}) => {
-
-
-    return(
+import { Link } from 'react-router-dom'
+const User = ({ user }) => {
+    return (
         <div>
-            <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Link to={`${user.id}`}>{user.name}</Link>
-                <p style={{marginLeft: '30px'}}>{user.blogs.length}</p>
+                <p style={{ marginLeft: '30px', color: 'black' }}>
+                    {user.blogs.length}
+                </p>
             </div>
         </div>
     )

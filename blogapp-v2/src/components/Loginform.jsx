@@ -1,4 +1,5 @@
-import {useField} from '../hooks/custom'
+import { useField } from '../hooks/custom'
+import { Form, Button } from 'react-bootstrap'
 
 const Loginform = ({ loginFunc }) => {
     const username = useField('text', 'username', 'username')
@@ -15,27 +16,31 @@ const Loginform = ({ loginFunc }) => {
     }
 
     return (
-        <form onSubmit={handleLogin}>
-            <div>
-                username
-                <input type={username.type}
+        <div>
+            <Form onSubmit={handleLogin}>
+                <Form.Group>
+                    <Form.Label>username</Form.Label>
+                    <Form.Control
+                        type={username.type}
                         id={username.id}
                         placeholder={username.placeholder}
                         value={username.value}
-                        onChange={username.onChange}/>
-            </div>
-            <div>
-                password
-                <input type={password.type}
+                        onChange={username.onChange}
+                    />
+                    <Form.Label>password</Form.Label>
+                    <Form.Control
+                        type={password.type}
                         id={password.id}
                         placeholder={password.placeholder}
                         value={password.value}
-                        onChange={password.onChange}/>
-            </div>
-            <button id="subbutton" type="submit">
-                Login
-            </button>
-        </form>
+                        onChange={password.onChange}
+                    />
+                    <Button id="subbutton" variant="primary" type="submit">
+                        Login
+                    </Button>
+                </Form.Group>
+            </Form>
+        </div>
     )
 }
 

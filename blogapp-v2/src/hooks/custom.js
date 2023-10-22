@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 export const useField = (type, id, placeholder) => {
     const [value, setValue] = useState('')
@@ -17,6 +17,6 @@ export const useField = (type, id, placeholder) => {
         placeholder,
         value,
         onChange,
-        clearField
+        clearField,
     }
 }

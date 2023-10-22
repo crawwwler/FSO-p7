@@ -1,20 +1,33 @@
-const Menu = ({Link}) => {
+import { Navbar, Nav } from 'react-bootstrap'
 
+const Menu = ({ Link }) => {
     const padding = {
-        padding: '2px 6px',
-        textDecoration: 'none',
-        backgroundColor: '#006600',
-        color: 'white',
-        borderRadius: '8px',
-        transition: 'background-color 0.2s'
+        padding: '5px 10px',
     }
 
-    return(
-        <div>
-            <Link style={padding} to='/'>Home</Link>
-            <Link style={padding} to='blogs'>Blogs</Link>
-            <Link style={padding} to='users'>Users</Link>
-        </div>
+    return (
+        <Navbar collapseOnSelect expand="lg" className="navbar">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="me-auto">
+                    <Nav.Link href="#" as="span">
+                        <Link style={padding} to="/">
+                            Home
+                        </Link>
+                    </Nav.Link>
+                    <Nav.Link href="#" as="span">
+                        <Link style={padding} to="blogs">
+                            Blogs
+                        </Link>
+                    </Nav.Link>
+                    <Nav.Link href="#" as="span">
+                        <Link style={padding} to="users">
+                            Users
+                        </Link>
+                    </Nav.Link>
+                </Nav>
+            </Navbar.Collapse>
+        </Navbar>
     )
 }
 

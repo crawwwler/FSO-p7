@@ -1,19 +1,22 @@
-.error {
-    color: red;
-    background-color: gray;
-    font-size: 20px;
+/* style bootstrap css*/
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: yellow;
+}
+.table-striped > tbody > tr:nth-child(even) > td,
+.table-striped > tbody > tr:nth-child(even) > th {
+    background-color: yellow;
 }
 
-.notif {
-    color: green;
-    background-color: gray;
-    font-size: 20px;
+.navbar {
+    background-color: yellow;
+    color: white;
 }
 
-.blog {
-    padding-top: 10;
-    padding-left: 2;
-    border: solid;
-    border-width: 1;
-    margin-bottom: 5;
+.logo-image {
+    position: fixed;
+    top: 66%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

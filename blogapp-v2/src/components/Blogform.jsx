@@ -1,7 +1,6 @@
-import {useField} from '../hooks/custom'
+import { useField } from '../hooks/custom'
 
 const Blogform = ({ createFunc }) => {
-
     const title = useField('text', 'title', 'title')
     const url = useField('text', 'url', 'url')
     const author = useField('text', 'author', 'author')
@@ -24,27 +23,33 @@ const Blogform = ({ createFunc }) => {
             <form onSubmit={handleForm}>
                 <div>
                     title:
-                    <input type={title.type}
-                            id={title.id}
-                            placeholder={title.placeholder}
-                            value={title.value}
-                            onChange={title.onChange}/>
+                    <input
+                        type={title.type}
+                        id={title.id}
+                        placeholder={title.placeholder}
+                        value={title.value}
+                        onChange={title.onChange}
+                    />
                 </div>
                 <div>
                     author:
-                    <input type={author.type}
-                            id={author.id}
-                            placeholder={author.placeholder}
-                            value={author.value}
-                            onChange={author.onChange}/>
+                    <input
+                        type={author.type}
+                        id={author.id}
+                        placeholder={author.placeholder}
+                        value={author.value}
+                        onChange={author.onChange}
+                    />
                 </div>
                 <div>
                     url:
-                    <input type={url.type}
-                            id={url.id}
-                            placeholder={url.placeholder}
-                            value={url.value}
-                            onChange={url.onChange}/>
+                    <input
+                        type={url.type}
+                        id={url.id}
+                        placeholder={url.placeholder}
+                        value={url.value}
+                        onChange={url.onChange}
+                    />
                 </div>
                 <button id="subbutton" type="submit">
                     create
