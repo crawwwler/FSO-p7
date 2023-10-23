@@ -21,6 +21,7 @@ import {
     GlobalFormStyle,
     GlobalButtonStyle,
     GlobalLinks,
+    AppTitle,
 } from './styles/StyledComponents'
 
 const App = () => {
@@ -47,7 +48,6 @@ const App = () => {
             await dispatch(setUserWhenLogin(userInput))
         } catch (error) {
             console.log(error.message)
-            console.log('the code was here at some point')
             dispatch(
                 setErrorNotification({
                     text: 'wrong username or password',
@@ -94,7 +94,7 @@ const App = () => {
                     <Notification />
                 </div>
                 <div>
-                    <h2>BLOGS APP</h2>
+                    <AppTitle>BLOG APP</AppTitle>
                 </div>
                 <Routes>
                     <Route path="/" element={<Home />} />

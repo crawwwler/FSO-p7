@@ -42,7 +42,6 @@ export const blogCreation = (blog) => {
 }
 
 export const blogDeletion = (id) => {
-    console.log('code was here @blogReducer/blogdeletion and id is =>', id)
     return async (dispatch) => {
         await blogService.remove(id)
         dispatch(deleteBlogAction(id))

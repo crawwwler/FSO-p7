@@ -58,3 +58,11 @@ export const GlobalLinks = createGlobalStyle`
   }
 
 `
+
+export const AppTitle = styled.div`
+    background-color: black;
+    color: yellow;
+    padding: 10px;
+    font-size: 24px;
+    display: inline-block;
+`
