@@ -19,7 +19,7 @@ const Blogform = ({ createFunc }) => {
 
     return (
         <div>
-            <h3>create note</h3>
+            <h3>create blog</h3>
             <form onSubmit={handleForm}>
                 <div>
                     title:

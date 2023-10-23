@@ -50,7 +50,7 @@ const Blogs = ({ blogs }) => {
 
     const blogForm = () => {
         return (
-            <Togglable buttonLabel="new note" ref={refBlogForm}>
+            <Togglable buttonLabel="new blog" ref={refBlogForm}>
                 <Blogform createFunc={createBlog} />
             </Togglable>
         )
