@@ -9,6 +9,7 @@ const Blog = ({ blog, updateFunc, deleteFunc, creator }) => {
     }
 
     const deleteButton = () => {
+        // cause the blogs i had as sample to start with had not creator user
         if (blog.user.length === 0) {
             return null
         } else {

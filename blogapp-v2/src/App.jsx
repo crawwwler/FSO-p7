@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import Approutes from './components/Approutes'
 import Authroutes from './components/Authroutes'
-import Loginform from './components/Loginform'
 import Notification from './components/Notification'
 import Menu from './components/Menu'
 import { setErrorNotification } from './reducers/notifReducer'
@@ -28,6 +27,8 @@ const App = () => {
     const users = useSelector((state) => state.userslist)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    //console.log('@App , user is =>', user)
 
     useEffect(() => {
         dispatch(initializeBlogs())
@@ -62,23 +63,6 @@ const App = () => {
         navigate('/')
     }
 
-    /*const loginForm = () => {
-        
-        return <Loginform loginFunc={handleLogin}/>
-        
-        navigate('login')
-    }
-
-    if (user === null) {
-        loginForm()
-        return (
-            <div>
-                <Authroutes login={handleLogin} />
-            </div>
-        )
-    }*/
-
-    // when user not null
     return (
         <div className="container">
             <GlobalFormStyle />
@@ -86,7 +70,7 @@ const App = () => {
             <GlobalLinks />
             {user === null ? (
                 <div>
-                    <h2>Log in to the applicaion</h2>
+                    <AppTitle>BLOG APP</AppTitle>
                     <Notification />
                     <Authroutes login={handleLogin} />
                 </div>
@@ -105,11 +89,7 @@ const App = () => {
                     <div>
                         <AppTitle>BLOG APP</AppTitle>
                     </div>
-                    <Approutes
-                        blogs={blogs}
-                        users={users}
-                        login={handleLogin}
-                    />
+                    <Approutes blogs={blogs} users={users} viewer={user} />
                 </div>
             )}
         </div>

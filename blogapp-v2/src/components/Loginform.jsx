@@ -22,7 +22,8 @@ const Loginform = ({ loginFunc }) => {
     }
 
     return (
-        <div>
+        <div style={{ marginTop: '15px' }}>
+            <h4>Log in to the application</h4>
             <Form onSubmit={handleLogin}>
                 <Form.Group>
                     <Form.Label>username</Form.Label>

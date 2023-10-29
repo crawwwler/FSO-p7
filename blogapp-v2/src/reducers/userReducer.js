@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
+import userService from '../services/users'
 import loginService from '../services/login'
 
 const userSlice = createSlice({
@@ -19,6 +20,7 @@ export const initializeUser = () => {
             const userObj = JSON.parse(existingUser)
             dispatch(setUserAction(userObj))
             blogService.setToken(userObj.token)
+            userService.setToken(userObj.token)
         }
     }
 }
@@ -29,6 +31,7 @@ export const setUserWhenLogin = (loginDetail) => {
         window.localStorage.setItem('loggedUser', JSON.stringify(userLoggedIn))
         dispatch(setUserAction(userLoggedIn))
         blogService.setToken(userLoggedIn.token)
+        userService.setToken(userLoggedIn.token)
     }
 }
 
@@ -36,6 +39,7 @@ export const setUserWhenLogout = () => {
     return (dispatch) => {
         dispatch(setUserAction(null))
         blogService.setToken('')
+        userService.setToken('')
         window.localStorage.removeItem('loggedUser')
     }
 }

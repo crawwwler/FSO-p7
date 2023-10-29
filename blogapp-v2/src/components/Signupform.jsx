@@ -1,9 +1,9 @@
 import { Form, Button } from 'react-bootstrap'
 import { useField } from '../hooks/custom'
-import server from '../services/users'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setNotification, setErrorNotification } from '../reducers/notifReducer'
+import { createNewUser } from '../reducers/usersReducer'
 
 const Signupform = () => {
     const username = useField('text', 'username', 'username')
@@ -14,18 +14,16 @@ const Signupform = () => {
 
     const signUp = async (event) => {
         event.preventDefault()
-        console.log('code @Signupform/signUp component => first line first log')
         const nuUser = {
             username: username.value,
             name: name.value,
             password: password.value,
         }
         try {
-            const cUser = await server.createUser(nuUser)
-            console.log('code @Signupform/signup component / second log')
+            await dispatch(createNewUser(nuUser))
             dispatch(
                 setNotification({
-                    text: `your account has been created, ${cUser.name}`,
+                    text: `your account has been created, ${nuUser.name}`,
                     error: false,
                 }),
             )
@@ -34,13 +32,21 @@ const Signupform = () => {
             password.clearField()
             navigate('/')
         } catch (error) {
-            console.log(error.message)
-            dispatch(
-                setErrorNotification({
-                    text: error.message,
-                    error: true,
-                }),
-            )
+            if (error.response.status === 400) {
+                dispatch(
+                    setErrorNotification({
+                        text: error.response.data.error,
+                        error: true,
+                    }),
+                )
+            } else {
+                dispatch(
+                    setErrorNotification({
+                        text: 'something went wrong',
+                        error: true,
+                    }),
+                )
+            }
         }
     }
 
@@ -49,7 +55,8 @@ const Signupform = () => {
     }
 
     return (
-        <div>
+        <div style={{ marginTop: '15px' }}>
+            <h4>Fill the form to sign up</h4>
             <Form onSubmit={signUp}>
                 <Form.Group>
                     <Form.Label>Name</Form.Label>

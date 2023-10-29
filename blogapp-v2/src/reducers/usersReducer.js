@@ -8,6 +8,12 @@ const usersSlice = createSlice({
         setUsersAction(state, action) {
             return action.payload
         },
+        createNewUserAction(state, action) {
+            state.push(action.payload)
+        },
+        removeUserAction(state, action) {
+            return state.filter((m) => m.id !== action.payload)
+        },
     },
 })
 
@@ -18,5 +24,20 @@ export const initializeUsers = () => {
     }
 }
 
-export const { setUsersAction } = usersSlice.actions
+export const createNewUser = (nuUser) => {
+    return async (dispatch) => {
+        const createdUser = await usersService.createUser(nuUser)
+        dispatch(createNewUserAction(createdUser))
+    }
+}
+
+export const removeUser = (id) => {
+    return async (dispatch) => {
+        await usersService.deleteUser(id)
+        dispatch(removeUserAction(id))
+    }
+}
+
+export const { setUsersAction, createNewUserAction, removeUserAction } =
+    usersSlice.actions
 export default usersSlice.reducer
