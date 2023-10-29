@@ -6,5 +6,11 @@ const getAll = async () => {
     return response.data
 }
 
-const services = { getAll }
+// sign up user
+const createUser = async(obj) => {
+    const response = await axios.post(baseUrl, obj)
+    return response.data
+}
+
+const services = { getAll, createUser}
 export default services

@@ -1,14 +1,12 @@
 import { useEffect } from 'react'
-import Blogs from './components/Blogs'
-import Users from './components/Users'
+import Approutes from './components/Approutes'
+import Authroutes from './components/Authroutes'
 import Loginform from './components/Loginform'
 import Notification from './components/Notification'
 import Menu from './components/Menu'
-import Home from './components/Home'
-import Userview from './components/Userview'
-import Blogview from './components/Blogview'
 import { setErrorNotification } from './reducers/notifReducer'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { initializeBlogs } from './reducers/blogReducer'
 import {
     initializeUser,
@@ -16,7 +14,7 @@ import {
     setUserWhenLogout,
 } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     GlobalFormStyle,
     GlobalButtonStyle,
@@ -29,6 +27,7 @@ const App = () => {
     const user = useSelector((state) => state.users)
     const users = useSelector((state) => state.userslist)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(initializeBlogs())
@@ -60,53 +59,59 @@ const App = () => {
     const handleLogOut = (event) => {
         event.preventDefault()
         dispatch(setUserWhenLogout())
+        navigate('/')
     }
 
-    const loginForm = () => {
-        return <Loginform loginFunc={handleLogin} />
+    /*const loginForm = () => {
+        
+        return <Loginform loginFunc={handleLogin}/>
+        
+        navigate('login')
     }
 
     if (user === null) {
+        loginForm()
         return (
             <div>
-                <h2>log in to application</h2>
-                <Notification />
-                {loginForm()}
+                <Authroutes login={handleLogin} />
             </div>
         )
-    }
+    }*/
 
-    // SOME OF STYLES TEMPORARY FOR NOW
+    // when user not null
     return (
         <div className="container">
             <GlobalFormStyle />
             <GlobalButtonStyle />
             <GlobalLinks />
-            <Router>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Menu Link={Link} />
-                    <p style={{ marginLeft: '10px', marginTop: '10px' }}>
-                        {user.name} logged in
-                    </p>
-                    <button onClick={handleLogOut}>Log Out</button>
-                </div>
+            {user === null ? (
                 <div>
+                    <h2>Log in to the applicaion</h2>
                     <Notification />
+                    <Authroutes login={handleLogin} />
                 </div>
+            ) : (
                 <div>
-                    <AppTitle>BLOG APP</AppTitle>
-                </div>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="blogs" element={<Blogs blogs={blogs} />} />
-                    <Route path="users" element={<Users users={users} />} />
-                    <Route
-                        path="users/:id"
-                        element={<Userview users={users} />}
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Menu Link={Link} />
+                        <p style={{ marginLeft: '10px', marginTop: '10px' }}>
+                            {user.name} logged in
+                        </p>
+                        <button onClick={handleLogOut}>Log Out</button>
+                    </div>
+                    <div>
+                        <Notification />
+                    </div>
+                    <div>
+                        <AppTitle>BLOG APP</AppTitle>
+                    </div>
+                    <Approutes
+                        blogs={blogs}
+                        users={users}
+                        login={handleLogin}
                     />
-                    <Route path="blogs/:id" element={<Blogview />} />
-                </Routes>
-            </Router>
+                </div>
+            )}
         </div>
     )
 }

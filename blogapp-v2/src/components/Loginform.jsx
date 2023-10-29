@@ -1,9 +1,11 @@
 import { useField } from '../hooks/custom'
 import { Form, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
 const Loginform = ({ loginFunc }) => {
     const username = useField('text', 'username', 'username')
     const password = useField('password', 'password', 'password')
+    const navigate = useNavigate()
 
     const handleLogin = (event) => {
         event.preventDefault()
@@ -13,6 +15,10 @@ const Loginform = ({ loginFunc }) => {
         })
         username.clearField()
         password.clearField()
+    }
+
+    const signUpButton = () => {
+        navigate('signup')
     }
 
     return (
@@ -40,6 +46,13 @@ const Loginform = ({ loginFunc }) => {
                     </Button>
                 </Form.Group>
             </Form>
+            <Button
+                variant="primary"
+                onClick={signUpButton}
+                style={{ marginTop: '10px' }}
+            >
+                SignUp
+            </Button>
         </div>
     )
 }
